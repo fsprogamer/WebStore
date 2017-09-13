@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebStore.Models.Employee>
+    @{
+        ViewBag.Title = "Главная страница";
+    }
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <a href="@Url.Action("Edit")" title="Добавить" class="btn btn-success">Добавить сотрудника</a>
+</div>
+<br>
+<table class="table table-bordered">
+        <tr>
+            <th/>
+            <th>
+                Фамилия
+            </th>
+            <th>
+                Имя
+            </th>
+            <th>
+                Отчество
+            </th>
+            <th>
+                Возраст
+            </th>
+        </tr>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Edit", new {id = employee.Id})"
+                       title="Карточка сотрудника">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                </td>
+                <td>
+                    @employee.SurName
+                </td>
+                <td>
+                    @employee.FirstName
+                </td>
+                <td>
+                    @employee.Patronymic
+                </td>
+                <td>
+                    @employee.Age
+                </td>
+                <td>
+                    <a href="@Url.Action("Delete", new {id = employee.Id})"
+                       title="Удалить">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </table>

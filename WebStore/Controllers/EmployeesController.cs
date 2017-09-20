@@ -11,10 +11,16 @@ namespace WebStore.Controllers
         {
             EmployeesRepo = new EmployeeRepository();
         }
+
+        public ActionResult Item(string section, string name, string id)
+        {
+            return null;
+        }
         /// <summary>
         /// Выводит список сотрудников
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public ActionResult List()
         {
             return View(EmployeesRepo.GetItems());
@@ -24,6 +30,7 @@ namespace WebStore.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        //[ActionName("EditEmployee")]
         public ActionResult Edit(int? id)
         {
             var model = new Employee();
@@ -65,6 +72,27 @@ namespace WebStore.Controllers
         {
             EmployeesRepo.DeleteItem(id);
             return RedirectToAction("List");
+        }
+        [MyAction]
+        public ActionResult GetImage()
+        {
+            return new FilePathResult("~/Content/Images/imgpsh_fullsize.jpg", "application/octet-stream"/*"image/jpeg"*/);
+        }
+
+        public class MyActionAttribute : FilterAttribute, IActionFilter
+        {
+            public void OnActionExecuted(ActionExecutedContext filterContext)
+            {
+                filterContext.HttpContext.Response.Write("Действие выполнено");
+            }
+
+            public void OnActionExecuting(ActionExecutingContext filterContext)
+            {
+                if (filterContext.HttpContext.Request.Browser.Browser == "Opera")
+                {
+                    filterContext.Result = new HttpNotFoundResult();
+                }
+            }
         }
     }
 }
